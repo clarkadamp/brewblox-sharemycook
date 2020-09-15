@@ -1,14 +1,16 @@
 [tool.poetry]
-name = "YOUR-PACKAGE"
+name = "brewblox-sharemycook"
 version = "0.1.0"
-description = "ADD DESCRIPTION HERE"
-authors = ["Code Fairies Inc <noreply@santa.com>"]
+description = "Vend metrix to brewblox for BBQGuru controllers from sharemycook"
+authors = ["Code Fairies Inc <clark.adam.p@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.7"
-brewblox-service = "^0.28.0"
+beautifulsoup4 = "^4.9.1"
+brewblox-service = "^0.30.1"
+cached-property = "1.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest-flake8 = "^1.0.4"
