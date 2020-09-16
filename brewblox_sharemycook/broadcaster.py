@@ -54,7 +54,7 @@ class Broadcaster(repeater.RepeaterFeature):
             self.current_interval = new_interval
         return self.current_interval
 
-    async def run(self):
+    async def run(self) -> None:
         data = {}
         for device_data in await self.share_my_cook.poll():
             self.report_device_state_changes(device_data)
@@ -87,7 +87,7 @@ class Broadcaster(repeater.RepeaterFeature):
             self.device_states[device_id] = device_data.state
 
 
-def setup(app: web.Application):
+def setup(app: web.Application) -> None:
     features.add(app, Broadcaster(app))
 
 

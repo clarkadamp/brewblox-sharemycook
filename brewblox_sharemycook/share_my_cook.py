@@ -83,7 +83,7 @@ class ShareMyCook:
                 "__RequestVerificationToken": get_csrf_token(await bs_ify(login_page)),
             }
         )
-        if login_response.history and login_response.history[0] != 302:
+        if login_response.history and login_response.history[0].status == 302:
             LOGGER.info(f"Successfully logged in {self.username} to {SHARE_MY_COOK}")
             return
         LOGGER.error(f"Unable to login with {self.username}/{self.password}")
