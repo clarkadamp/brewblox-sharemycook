@@ -33,9 +33,9 @@ class Broadcaster(repeater.RepeaterFeature):
         password = self.app['config'].get('password') or os.environ['PASSWORD']
         self.share_my_cook = ShareMyCook(self.app, username, password)
 
-        LOGGER.info(f"Polling intervals: Active {self.active_interval}s, Inactive {self.inactive_interval}s")
-        LOGGER.info(f"name: {self.name}")
-        LOGGER.info(f"topic: {self.topic}")
+        LOGGER.info(f'Polling intervals: Active {self.active_interval}s, Inactive {self.inactive_interval}s')
+        LOGGER.info(f'name: {self.name}')
+        LOGGER.info(f'topic: {self.topic}')
 
     @property
     def active_devices(self) -> bool:
@@ -50,7 +50,7 @@ class Broadcaster(repeater.RepeaterFeature):
         """
         new_interval = self.active_interval if self.active_devices else self.inactive_interval
         if self.current_interval != new_interval:
-            LOGGER.info(f"Changing polling interval from {self.current_interval}s to {new_interval}s")
+            LOGGER.info(f'Changing polling interval from {self.current_interval}s to {new_interval}s')
             self.current_interval = new_interval
         return self.current_interval
 
@@ -60,13 +60,13 @@ class Broadcaster(repeater.RepeaterFeature):
             self.report_device_state_changes(device_data)
             data.update(device_data.serialize())
 
-        LOGGER.debug(f"Publishing: ShareMyCook: {data}")
+        LOGGER.debug(f'Publishing: ShareMyCook: {data}')
         try:
             await mqtt.publish(
                 self.app,
                 self.topic,
                 {
-                    'key': f"ShareMyCook",
+                    'key': 'ShareMyCook',
                     'data': data
                 }
             )
@@ -76,14 +76,14 @@ class Broadcaster(repeater.RepeaterFeature):
     def report_device_state_changes(self, device_data: Controller) -> None:
         device_id = device_data.device_id
         if device_id not in self.device_states:
-            LOGGER.info(f"New device {device_data.name}({device_id}) is {device_data.state.value}")
+            LOGGER.info(f'New device {device_data.name}({device_id}) is {device_data.state.value}')
             self.device_states[device_id] = device_data.state
 
         if self.device_states[device_id] != device_data.state:
             LOGGER.info(
-                f"Device {device_data.name}({device_id}) transitioned "
-                f"from {self.device_states[device_id].value} "
-                f"to {device_data.state.value}")
+                f'Device {device_data.name}({device_id}) transitioned '
+                f'from {self.device_states[device_id].value} '
+                f'to {device_data.state.value}')
             self.device_states[device_id] = device_data.state
 
 

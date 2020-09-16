@@ -14,13 +14,13 @@ def controller(cls):
 
 
 class State(Enum):
-    ONLINE = "ONLINE"
-    OFFLINE = "OFFLINE"
+    ONLINE = 'ONLINE'
+    OFFLINE = 'OFFLINE'
 
 
 class TemperatureUnits(Enum):
-    CELSIUS = "CELSIUS"
-    FAHRENHEIT = "FAHRENHEIT"
+    CELSIUS = 'CELSIUS'
+    FAHRENHEIT = 'FAHRENHEIT'
 
 
 @dataclass
@@ -35,7 +35,7 @@ class Controller(ABC):
 
     @property
     def temp_units(self) -> str:
-        return "Deg{}".format("C" if self.units == TemperatureUnits.CELSIUS else "F")
+        return f'Deg{"C" if self.units == TemperatureUnits.CELSIUS else "F"}'
 
     @classmethod
     @abstractmethod
@@ -73,7 +73,7 @@ class UltraQ(Controller):
         return cls(
             device_id=device_id,
             name=json['customerDeviceName'],
-            state=State.ONLINE if "good" in json['indicateStatus'].lower() else State.OFFLINE,
+            state=State.ONLINE if 'good' in json['indicateStatus'].lower() else State.OFFLINE,
             units=units,
             pit_temp=float(json['pitActualTemp']),
             pit_target=float(json['pitTargetTemp']),
@@ -84,7 +84,7 @@ class UltraQ(Controller):
             food3_temp=float(json['food3ActualTemp']),
             food3_target=float(json['food3TargetTemp']),
             fan_duty=json['currentOutputPercent'],
-            last_update=datetime.datetime.fromisoformat(json["lastDeviceCommunicationTimestamp"])
+            last_update=datetime.datetime.fromisoformat(json['lastDeviceCommunicationTimestamp'])
         )
 
     def serialize(self) -> Mapping[str, Any]:
@@ -92,18 +92,18 @@ class UltraQ(Controller):
         targets = {}
 
         data = {
-            "Active": 1 if self.state == State.ONLINE else 0,
+            'Active': 1 if self.state == State.ONLINE else 0,
         }
 
         if self.state == State.ONLINE:
-            data["Fan_Duty[%]"] = self.fan_duty if self.state == State.ONLINE else None
-            data["Targets"] = targets
-            data["Values"] = values
+            data['Fan_Duty[%]'] = self.fan_duty if self.state == State.ONLINE else None
+            data['Targets'] = targets
+            data['Values'] = values
 
             for probe_name in ['pit', 'food1', 'food2', 'food3']:
-                probe_temp = getattr(self, f"{probe_name}_temp")
+                probe_temp = getattr(self, f'{probe_name}_temp')
                 if probe_temp > self.DISCONNECTED_TEMP:
-                    values[f"{probe_name}[{self.temp_units}]"] = probe_temp
-                    targets[f"{probe_name}[{self.temp_units}]"] = getattr(self, f"{probe_name}_target")
+                    values[f'{probe_name}[{self.temp_units}]'] = probe_temp
+                    targets[f'{probe_name}[{self.temp_units}]'] = getattr(self, f'{probe_name}_target')
 
         return {self.name: data}
