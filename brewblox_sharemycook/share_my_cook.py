@@ -86,5 +86,5 @@ class ShareMyCook:
         if login_response.history and login_response.history[0].status == 302:
             LOGGER.info(f'Successfully logged in {self.username} to {SHARE_MY_COOK}')
             return
-        LOGGER.error(f'Unable to login with {self.username}/{self.password}')
+        LOGGER.error(f'Unable to login with {self.username}/{"*" * len(self.password)}')
         raise repeater.RepeaterCancelled()
