@@ -15,7 +15,7 @@ SMC_PASS=<sharemycook-password>
 Add the following to your brewblox `docker-compose.yml`
 ```
   sharemycook:
-    image: clarkadamp/brewblox-sharemycook:local
+    image: clarkadamp/brewblox-sharemycook:develop
     restart: unless-stopped
     environment:
     - USERNAME=$SMC_USER
