@@ -1,9 +1,9 @@
 import uuid
 from typing import Set, Sequence
 
-from aiohttp import web, ClientResponse
+from aiohttp import ClientResponse
 from aiohttp.client import ClientSession
-from brewblox_service import brewblox_logger, http, repeater
+from brewblox_service import brewblox_logger, repeater
 from cached_property import cached_property
 
 from brewblox_sharemycook.controllers import controller_types, Controller, TemperatureUnits
@@ -31,8 +31,8 @@ def authenticate(func):
 
 class ShareMyCook:
 
-    def __init__(self, app: web.Application, username: str, password: str) -> None:
-        self.app = app
+    def __init__(self, session: ClientSession, username: str, password: str) -> None:
+        self.session = session
         self.username = username
         self.password = password
 
@@ -53,10 +53,6 @@ class ShareMyCook:
     async def get(self, url: str) -> ClientResponse:
         LOGGER.debug(f'GET {url}')
         return await self.session.get(url)
-
-    @property
-    def session(self) -> ClientSession:
-        return http.session(self.app)
 
     async def poll_device(self, device_id: uuid.UUID) -> Controller:
         response = await self.get(f'{SHARE_MY_COOK}/account/customerdevice/temperatures_read?id={device_id}')

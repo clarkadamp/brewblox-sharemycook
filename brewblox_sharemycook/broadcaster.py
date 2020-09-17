@@ -2,7 +2,7 @@ import asyncio
 import os
 
 from aiohttp import web
-from brewblox_service import (brewblox_logger, features, mqtt, repeater)
+from brewblox_service import (brewblox_logger, features, mqtt, repeater, http)
 
 from brewblox_sharemycook.controllers import State, Controller
 from brewblox_sharemycook.share_my_cook import ShareMyCook
@@ -31,7 +31,7 @@ class Broadcaster(repeater.RepeaterFeature):
 
         username = self.app['config'].get('username') or os.environ['USERNAME']
         password = self.app['config'].get('password') or os.environ['PASSWORD']
-        self.share_my_cook = ShareMyCook(self.app, username, password)
+        self.share_my_cook = ShareMyCook(http.session(self.app), username, password)
 
         LOGGER.info(f'Polling intervals: Active {self.active_interval}s, Inactive {self.inactive_interval}s')
         LOGGER.info(f'name: {self.name}')
