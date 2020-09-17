@@ -3,7 +3,6 @@ Master file for pytest fixtures.
 Any fixtures declared here are available to all test functions in this directory.
 """
 
-
 import logging
 
 import pytest
@@ -27,7 +26,8 @@ def app_config() -> dict:
         'host': 'localhost',
         'port': 1234,
         'debug': False,
-        'poll_interval': 5,
+        'active_poll_interval': 0.001,
+        'inactive_poll_interval': 0.002,
         'history_topic': 'brewcast/history',
     }
 
@@ -39,7 +39,8 @@ def sys_args(app_config) -> list:
         '--name', app_config['name'],
         '--host', app_config['host'],
         '--port', app_config['port'],
-        '--poll-interval', app_config['poll_interval'],
+        '--active-poll-interval', app_config['active_poll_interval'],
+        '--inactive-poll-interval', app_config['active_poll_interval'],
         '--history-topic', app_config['history_topic'],
     ]]
 
