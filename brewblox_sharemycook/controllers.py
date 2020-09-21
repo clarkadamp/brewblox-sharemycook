@@ -41,13 +41,13 @@ class Controller(ABC):
     @abstractmethod
     def from_json(
         cls, device_id: uuid.UUID, units: TemperatureUnits, json: Mapping[str, Union[str, int]]
-    ) -> 'Controller':
+    ) -> 'Controller':  # pragma: nocov
         """
         Instantiate an instance from ShareMyCook JSON data
         """
 
     @abstractmethod
-    def serialize(self) -> Mapping[str, Any]:
+    def serialize(self) -> Mapping[str, Any]:  # pragma: nocov
         """
         Return this controllers data ready for MQTT
         """
