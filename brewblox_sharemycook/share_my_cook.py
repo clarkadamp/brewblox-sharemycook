@@ -45,7 +45,7 @@ class ShareMyCook:
     @cached_property
     async def device_ids(self) -> Set[uuid.UUID]:
         devices_page = await self.get(f'{SHARE_MY_COOK}/account/customerdevice')
-        device_ids = glean_device_ids(await bs_ify(devices_page))
+        device_ids = glean_device_ids(bs_ify(await devices_page.text()))
         LOGGER.debug(f'Discovered {len(device_ids)} device(s): {", ".join(sorted(str(u) for u in device_ids))}')
         return device_ids
 
@@ -64,7 +64,7 @@ class ShareMyCook:
     @cached_property
     async def temperature_units(self) -> TemperatureUnits:
         profile_page = await self.get(f'{SHARE_MY_COOK}/Account/Profile')
-        raw_units = glean_temperature_units(await bs_ify(profile_page))
+        raw_units = glean_temperature_units(bs_ify(await profile_page.text()))
         units = TemperatureUnits(raw_units.upper())
         LOGGER.info(f'Temperature units are in {units.value}')
         return units
@@ -76,7 +76,7 @@ class ShareMyCook:
             data={
                 'Username': self.username,
                 'Password': self.password,
-                '__RequestVerificationToken': get_csrf_token(await bs_ify(login_page)),
+                '__RequestVerificationToken': get_csrf_token(bs_ify(await login_page.text())),
             }
         )
         if login_response.history and login_response.history[0].status == 302:

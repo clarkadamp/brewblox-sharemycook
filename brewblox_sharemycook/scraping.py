@@ -1,13 +1,12 @@
 import uuid
 from typing import Set
 
-from aiohttp import ClientResponse
 from brewblox_service import repeater
 from bs4 import BeautifulSoup
 
 
-async def bs_ify(response: ClientResponse) -> BeautifulSoup:
-    return BeautifulSoup(await response.text(), features='html.parser')
+def bs_ify(content: str) -> BeautifulSoup:
+    return BeautifulSoup(content, features='html.parser')
 
 
 def get_login_form(soup: BeautifulSoup) -> BeautifulSoup:
