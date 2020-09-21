@@ -16,6 +16,7 @@ def log_enabled():
     """Sets log level to DEBUG for all test functions.
     Allows all logged messages to be captured during pytest runs"""
     logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger('flake8').setLevel(logging.INFO)
     logging.captureWarnings(True)
 
 

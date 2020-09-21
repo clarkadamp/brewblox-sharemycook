@@ -13,6 +13,7 @@ def get_login_form(soup: BeautifulSoup) -> BeautifulSoup:
     for form in soup.find_all('form'):
         if form.get('action') == '/Login':
             return form
+    raise repeater.RepeaterCancelled('Unable to discover login form')
 
 
 def get_csrf_token(soup: BeautifulSoup) -> str:
@@ -20,6 +21,7 @@ def get_csrf_token(soup: BeautifulSoup) -> str:
     for _input in login_form.find_all('input'):
         if _input.get('name') == '__RequestVerificationToken':
             return _input.get('value')
+    raise repeater.RepeaterCancelled('Unable to discover CSRF token')
 
 
 def glean_device_ids(soup: BeautifulSoup) -> Set[uuid.UUID]:
@@ -38,6 +40,6 @@ def glean_device_ids(soup: BeautifulSoup) -> Set[uuid.UUID]:
 
 def glean_temperature_units(soup: BeautifulSoup) -> str:
     _input = soup.find(id='TemperatureUnit', checked='checked')
-    if _input is None:
-        raise repeater.RepeaterCancelled('Unable to identify temperature units')
-    return _input.get('value')
+    if _input:
+        return _input.get('value')
+    raise repeater.RepeaterCancelled('Unable to identify temperature units')
