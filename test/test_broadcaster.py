@@ -137,5 +137,5 @@ async def test_device_state_change(app, m_share_my_cook, active_device, inactive
 
     caplog.clear()
     await caster.run()
-    assert f'Device MyDeviceName({device_id}) transitioned from ONLINE to OFFLINE'
+    assert f'Device MyDeviceName({device_id}) transitioned from ONLINE to OFFLINE' in caplog.messages
     assert 'Changing polling interval from 0.01s to 0.05s' in caplog.messages
