@@ -27,9 +27,11 @@ def app_config() -> dict:
         'host': 'localhost',
         'port': 1234,
         'debug': False,
-        'active_poll_interval': 0.001,
-        'inactive_poll_interval': 0.002,
+        'active_poll_interval': 0.01,
+        'inactive_poll_interval': 0.05,
         'history_topic': 'brewcast/history',
+        'username': 'my_username',
+        'password': 'my_password',
     }
 
 
@@ -41,8 +43,10 @@ def sys_args(app_config) -> list:
         '--host', app_config['host'],
         '--port', app_config['port'],
         '--active-poll-interval', app_config['active_poll_interval'],
-        '--inactive-poll-interval', app_config['active_poll_interval'],
+        '--inactive-poll-interval', app_config['inactive_poll_interval'],
         '--history-topic', app_config['history_topic'],
+        '--username', app_config['username'],
+        '--password', app_config['password'],
     ]]
 
 

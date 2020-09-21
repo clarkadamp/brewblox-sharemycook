@@ -21,11 +21,11 @@ def create_parser(default_name='brewblox-sharemycook') -> ArgumentParser:
     # Note how we specify the type as float
     parser.add_argument('--active-poll-interval',
                         help='Interval (in seconds) between polling when active devices detected. [%(default)s]',
-                        type=int,
+                        type=float,
                         default=2)
     parser.add_argument('--inactive-poll-interval',
                         help='Interval (in seconds) between polling when no active devices detected. [%(default)s]',
-                        type=int,
+                        type=float,
                         default=300)
     parser.add_argument('--username', help='Share My Cook Username')
     parser.add_argument('--password', help='Share My Cook Password')
