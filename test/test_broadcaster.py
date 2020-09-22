@@ -28,7 +28,7 @@ def m_share_my_cook(monkeypatch):
 
 
 @pytest.fixture
-def app(app, client, m_publish):
+def app(app, m_publish):
     scheduler.setup(app)
     http.setup(app)
     return app
@@ -79,6 +79,7 @@ def inactive_device(device_id):
     )
 
 
+@pytest.mark.usefixtures('client')
 async def test_run(app, m_publish, m_share_my_cook, active_device, caplog):
     def device_polls():
         yield active_device
@@ -116,6 +117,7 @@ async def test_run(app, m_publish, m_share_my_cook, active_device, caplog):
     assert 'topic: brewcast/history' in caplog.messages
 
 
+@pytest.mark.usefixtures('client')
 async def test_device_state_change(app, m_share_my_cook, active_device, inactive_device, device_id, caplog):
     responses = (
         [inactive_device],
