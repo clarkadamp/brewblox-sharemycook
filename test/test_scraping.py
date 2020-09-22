@@ -61,7 +61,7 @@ profile_page_f = dedent("""\
 @pytest.mark.parametrize('content, expected_value', [
     (profile_page_c, 'Celsius'),
     (profile_page_f, 'Fahrenheit'),
-])
+], ids=['Celsius', 'Fahrenheit'])
 def test_glean_temperature_units(content, expected_value):
     assert glean_temperature_units(bs_ify(content)) == expected_value
 
