@@ -1,6 +1,6 @@
 # Brewblox ShareMyCook
 
-This brewblox module pulls metrics from BBQGurus https://sharemycook.com/
+This [brewblox](https://brewblox.netlify.app/) module pulls metrics from BBQGurus https://sharemycook.com/
 
 It will auto discover your controllers and units and publish them to a new `ShareMyCook` category
 
@@ -27,4 +27,25 @@ then run:
 brewblox-ctl restart
 ```
 
-Metric should start to appear
+Metrics should start to appear under the `ShareMyCook` category.
+
+
+## Development
+
+Setup `poetry`
+```shell
+curl -sSL https://install.python-poetry.org | python3 -
+export PATH="~/.local/bin:$PATH"
+poetry install
+```
+
+Run locally
+```
+poetry run python3 -m brewblox_sharemycook --mqtt-host=10.17.10.1 --mqtt-protocol=mqtt --username <username> --password <password>
+```
+
+
+To run tests
+```shell
+poetry run python3 -m pytest test
+```

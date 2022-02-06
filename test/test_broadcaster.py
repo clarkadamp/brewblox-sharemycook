@@ -90,7 +90,7 @@ async def test_run(app, m_publish, m_share_my_cook, active_device, caplog):
 
     m_publish.assert_awaited_with(
         app,
-        'brewcast/history', {
+        'brewcast/history/share-my-cook/MyDeviceName', {
             'key': 'ShareMyCook',
             'data': {
                 'MyDeviceName': {
@@ -113,7 +113,7 @@ async def test_run(app, m_publish, m_share_my_cook, active_device, caplog):
 
     assert 'Polling intervals: Active 0.01s, Inactive 0.05s' in caplog.messages
     assert 'name: test_app' in caplog.messages
-    assert 'topic: brewcast/history' in caplog.messages
+    assert 'topic: brewcast/history/share-my-cook' in caplog.messages
 
 
 async def test_device_state_change(app, m_share_my_cook, active_device, inactive_device, device_id, caplog):
