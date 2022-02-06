@@ -27,7 +27,7 @@ class Broadcaster(repeater.RepeaterFeature):
         self.active_interval = self.app['config']['active_poll_interval']
         self.inactive_interval = self.app['config']['inactive_poll_interval']
         self.current_interval = self.inactive_interval
-        self.topic = f"{self.app['config']['history_topic']}/share-my-cook"
+        self.topic = f'{self.app["config"]["history_topic"]}/share-my-cook'
 
         username = self.app['config'].get('username') or os.environ['USERNAME']
         password = self.app['config'].get('password') or os.environ['PASSWORD']
@@ -59,7 +59,7 @@ class Broadcaster(repeater.RepeaterFeature):
         try:
             for device_data in await self.share_my_cook.poll():
                 self.report_device_state_changes(device_data)
-                device_topic = f"{self.topic}/{device_data.name}"
+                device_topic = f'{self.topic}/{device_data.name}'
                 data = device_data.serialize()
                 LOGGER.debug(f'Publishing to {device_topic}: {data}')
                 await mqtt.publish(self.app, device_topic, {'key': 'ShareMyCook', 'data': data})
